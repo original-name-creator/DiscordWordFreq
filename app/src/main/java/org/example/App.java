@@ -5,12 +5,12 @@ package org.example;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.example.JSONobjects.Message;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 
@@ -32,12 +32,50 @@ public class App {
 
         System.out.println(directories[0].getAbsolutePath());
 
+        List<Message> messages = new ArrayList<>();
+
 
         try {
-            List<Message> messages = objectMapper.readValue(new File(directories[0].getAbsolutePath() + "\\messages.json"), new TypeReference<List<Message>>(){});
+            for (int j = 0; j < directories.length; j++) {
+                List<Message> tempList = objectMapper.readValue(new File(directories[j].getAbsolutePath() + "\\messages.json"), new TypeReference<List<Message>>(){});
+                messages.addAll(tempList);
+            }
         } catch (IOException e) {
             System.out.println("\u001B[31m" + "Failed to parse JSON, You figure it out" + "\u001B[0m");
             e.printStackTrace();
+        }
+
+        List<String> messageText = new ArrayList<>();
+
+        for (int i = 0; i < messages.size(); i++) {
+            messageText.add(messages.get(i).getContents() + " ");
+        }
+
+        List<String> words = new ArrayList<>();
+
+        for (int i = 0; i < messageText.size(); i++) {
+            List<String> tempList = new ArrayList<String>(Arrays.asList(messageText.get(i).split(" ")));
+            words.addAll(tempList);
+        }
+
+        for (int i = 0; i < words.size(); i++) {
+            //words.set(i, words.get(i).replaceAll("(.*\\!)*?", ""));
+            words.set(i, words.get(i).replace("\"", ""));
+            words.set(i, words.get(i).replace(".", ""));
+            words.set(i, words.get(i).replace("\\", ""));
+            words.set(i, words.get(i).replace("!", ""));
+            words.set(i, words.get(i).replace("?", ""));
+            words.set(i, words.get(i).replace("*", ""));
+            words.set(i, words.get(i).replace("~", ""));
+            words.set(i, words.get(i).replace("∩", ""));
+            words.set(i, words.get(i).replace("┐", ""));
+            words.set(i, words.get(i).replace("╜", ""));
+            words.set(i, words.get(i).replace(",", ""));
+            words.set(i, words.get(i).toLowerCase());
+        }
+
+        for (int i = 0; i < words.size(); i++) {
+            System.out.println(words.get(i));
         }
 
 
