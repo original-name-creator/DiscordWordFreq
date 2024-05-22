@@ -4,8 +4,14 @@
 package org.example;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
+import org.example.JSONobjects.Message;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 
 public class App {
@@ -13,6 +19,8 @@ public class App {
     final static String PATH = "C:\\Users\\lukes\\Downloads\\package\\messages";
 
     public static void main(String[] args) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
 
         File[] directories = new File(PATH).listFiles(File::isDirectory);
 
@@ -22,7 +30,16 @@ public class App {
             dirnames[i] = directories[i].getAbsolutePath().replace(PATH  + "\\", "");
         }
 
-        
+        System.out.println(directories[0].getAbsolutePath());
+
+
+        try {
+            List<Message> messages = objectMapper.readValue(new File(directories[0].getAbsolutePath() + "\\messages.json"), new TypeReference<List<Message>>(){});
+        } catch (IOException e) {
+            System.out.println("\u001B[31m" + "Failed to parse JSON, You figure it out" + "\u001B[0m");
+            e.printStackTrace();
+        }
+
 
     }
 }
