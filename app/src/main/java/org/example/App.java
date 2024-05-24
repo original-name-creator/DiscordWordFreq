@@ -71,6 +71,7 @@ public class App {
             words.set(i, words.get(i).replace("┐", ""));
             words.set(i, words.get(i).replace("╜", ""));
             words.set(i, words.get(i).replace(",", ""));
+            words.set(i, words.get(i).replace("n∩┐╜t", ""));
             words.set(i, words.get(i).toLowerCase());
         }
 
