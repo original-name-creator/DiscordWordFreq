@@ -4,10 +4,13 @@
 package org.example;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.example.JSONobjects.Message;
 
@@ -16,7 +19,7 @@ import com.fasterxml.jackson.databind.*;
 
 public class App {
 
-    final static String PATH = "C:\\Users\\lukes\\Downloads\\package\\messages";
+    final static String PATH = "C:\\Users\\lukes\\Downloads\\package(1)\\messages";
 
     public static void main(String[] args) {
 
@@ -71,13 +74,40 @@ public class App {
             words.set(i, words.get(i).replace("┐", ""));
             words.set(i, words.get(i).replace("╜", ""));
             words.set(i, words.get(i).replace(",", ""));
-            words.set(i, words.get(i).replace("n∩┐╜t", ""));
+            words.set(i, words.get(i).replace("'", ""));
+            words.set(i, words.get(i).replace("’", ""));
+            words.set(i, words.get(i).replace("(", ""));
+            words.set(i, words.get(i).replace(")", ""));
+            words.set(i, words.get(i).replace("/", ""));
             words.set(i, words.get(i).toLowerCase());
         }
 
+
+
+        Map<String, Integer> counts = new HashMap<String, Integer>();
+
         for (int i = 0; i < words.size(); i++) {
-            System.out.println(words.get(i));
+            
+            if(counts.containsKey(words.get(i))){
+                counts.put(words.get(i), counts.get(words.get(i)) + 1);
+            }
+            else{
+                counts.put(words.get(i), 1);
+            }
+
         }
+
+
+        try {
+            FileWriter file = new FileWriter("phoebe-results.txt");
+            file.write(counts.toString());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+
+        
 
 
     }
